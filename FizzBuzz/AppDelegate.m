@@ -18,6 +18,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     for (int x = 1; x < 101; x++) {
+        
         BOOL buzzed = [self isBuzzed:x];
         BOOL fizzed = [self isFizzed:x];
         
