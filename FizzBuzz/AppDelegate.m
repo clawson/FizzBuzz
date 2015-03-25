@@ -22,13 +22,13 @@
         BOOL fizzed = [self isFizzed:x];
         
         if (buzzed && !fizzed) {
-            NSLog(@"Buzzed");
+            NSLog(@"Buzz");
         } else if (fizzed && !buzzed) {
-            NSLog(@"Fizzed");
+            NSLog(@"Fizz");
         } else if (buzzed && fizzed) {
             NSLog(@"FizzBuzz");
         } else {
-            NSLog(@"%d is just %d", x, x);
+            NSLog(@"%d", x);
         }
     }
     
@@ -58,29 +58,11 @@
 }
 
 - (BOOL) isBuzzed: (NSInteger) input {
-    // Buzz Check:  If a number is a multiple of 3 or contains the digit 3 return true, otherwise return false
+    // If a number is a multiple of 3 or contains the digit 3 return true, otherwise return false
     
-    // Convert the incoming integer to a string and determine if it has a 3
-    // There are a number of ways to convert a number to its string representation.  Here are two:
-
-    //NSString *inputAsString = [[NSNumber numberWithInteger:input] stringValue];
-    NSString *inputAsString = [@(input) stringValue];
-    
-    BOOL hasThree = FALSE;
-
-    for (long x = 0; x < inputAsString.length; x++) {
-        char sample = [inputAsString characterAtIndex:x];
-        if (sample == '3') {
-            hasThree = TRUE;
-            
-            x = (long) inputAsString.length;
-        }
-    }
-    
-    // Determine and return
     if (input % 3 == 0) {
         return TRUE;
-    } else if (hasThree) {
+    } else if ([self checkForDigitAsCharInString:input charToFind:'3']) {
         return TRUE;
     } else {
         return FALSE;
@@ -89,26 +71,39 @@
 
 
 - (BOOL) isFizzed: (NSInteger) input {
+    // If a number is a multiple of 5 or contains the digit 5 return true, otherwise return false
     
-    NSString *inputAsString = [[NSNumber numberWithInteger:input] stringValue];
-    
-    BOOL hasFive = FALSE;
-    
-    for (long x = 0; x < inputAsString.length; x++) {
-        char sample = [inputAsString characterAtIndex:x];
-        if (sample == '5') {
-            hasFive = TRUE;
-            
-            x = (long) inputAsString.length;
-        }
-    }
+    BOOL digitCheck = [self checkForDigitAsCharInString:input charToFind:'5'];
     
     if (input % 5 == 0) {
         return TRUE;
-    } else if (hasFive) {
+    } else if (digitCheck) {
         return TRUE;
     } else {
         return FALSE;
     }
+}
+
+- (BOOL) checkForDigitAsCharInString: (NSInteger) input
+             charToFind: (char) checkItem {
+    
+    // Convert integer input to its string representation
+    NSString *inputAsString = [@(input) stringValue];
+    
+    // Flag for a positive match
+    BOOL found = FALSE;
+    
+    for (NSInteger i = 0; i < inputAsString.length; i++) {
+        char sample = [inputAsString characterAtIndex:i];
+
+        if (sample == checkItem) {
+            found = TRUE;
+            
+            // Shortcut this loop, we found it and can stop looking
+            i = inputAsString.length;
+        }
+    }
+    
+    return found;
 }
 @end
