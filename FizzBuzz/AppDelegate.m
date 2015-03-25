@@ -62,7 +62,7 @@
     
     if (input % 3 == 0) {
         return TRUE;
-    } else if ([self checkForDigitAsCharInString:input charToFind:'3']) {
+    } else if ([[NSString stringWithFormat:@"%ld", input] containsString:@"3"]) {
         return TRUE;
     } else {
         return FALSE;
@@ -73,37 +73,13 @@
 - (BOOL) isFizzed: (NSInteger) input {
     // If a number is a multiple of 5 or contains the digit 5 return true, otherwise return false
     
-    BOOL digitCheck = [self checkForDigitAsCharInString:input charToFind:'5'];
-    
     if (input % 5 == 0) {
         return TRUE;
-    } else if (digitCheck) {
+    } else if ([[NSString stringWithFormat:@"%ld", input] containsString:@"5"]) {
         return TRUE;
     } else {
         return FALSE;
     }
 }
 
-- (BOOL) checkForDigitAsCharInString: (NSInteger) input
-             charToFind: (char) checkItem {
-    
-    // Convert integer input to its string representation
-    NSString *inputAsString = [@(input) stringValue];
-    
-    // Flag for a positive match
-    BOOL found = FALSE;
-    
-    for (NSInteger i = 0; i < inputAsString.length; i++) {
-        char sample = [inputAsString characterAtIndex:i];
-
-        if (sample == checkItem) {
-            found = TRUE;
-            
-            // Shortcut this loop, we found it and can stop looking
-            i = inputAsString.length;
-        }
-    }
-    
-    return found;
-}
 @end
